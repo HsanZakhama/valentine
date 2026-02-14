@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #ff6b6b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            animation: slideIn 1s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #ff3366;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .heart {
+            font-size: 4rem;
+            margin: 20px 0;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .question {
+            font-size: 2rem;
+            color: #333;
+            margin: 30px 0;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff3366, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-group {
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ffcccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ff3366;
+        }
+
+        .radio-group {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .radio-option.yes {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .radio-option.no {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff3366, #ff6b6b);
+            color: white;
+            border: none;
+            padding: 15px 50px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 20px 0;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.4);
+        }
+
+        .response-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .response-message.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+            border: 2px solid #28a745;
+        }
+
+        .response-message.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+            border: 2px solid #dc3545;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-hearts span {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .stats {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px dashed #ffcccc;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    
+    <div class="container">
+        <h1>Happy Valentine's Day! ❤️</h1>
+        
+        <div class="heart">💝</div>
+        
+        <div class="question">
+            Will you be my Valentine?
+        </div>
+        
+        <form id="valentineForm">
+            <div class="form-group">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            
+            <div class="radio-group">
+                <label class="radio-option yes">
+                    <input type="radio" name="answer" value="yes" required> Yes! 💖
+                </label>
+                <label class="radio-option no">
+                    <input type="radio" name="answer" value="no"> No 💔
+                </label>
+            </div>
+            
+            <button type="submit">Submit Answer</button>
+        </form>
+        
+        <div id="responseMessage" class="response-message"></div>
+        
+        <div class="stats" id="stats">
+            Loading responses...
+        </div>
+    </div>
+
+    <script>
+        // Google Sheets Configuration
+        // You'll need to create a Google Sheet and deploy as web app
+        const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+        
+        // For demo purposes, we'll use localStorage
+        // But for real tracking, use Google Sheets (instructions below)
+        
+        // Form submission
+        document.getElementById('valentineForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const answer = document.querySelector('input[name="answer"]:checked')?.value;
+            const responseDiv = document.getElementById('responseMessage');
+            
+            if (!name || !answer) {
+                showMessage('Please fill in all fields!', 'error');
+                return;
+            }
+            
+            // Save to localStorage (demo)
+            saveToLocalStorage(name, answer);
+            
+            // Show response message
+            if (answer === 'yes') {
+                showMessage(`Yay! 🎉 Thank you ${name}! Can't wait to celebrate with you! 💕`, 'success');
+                createConfetti();
+            } else {
+                showMessage(`Aww 😢 Maybe next time ${name}...`, 'error');
+            }
+            
+            // Clear form
+            document.getElementById('name').value = '';
+            document.querySelector('input[name="answer"]:checked').checked = false;
+            
+            // Update stats
+            updateStats();
+        });
+
+        function saveToLocalStorage(name, answer) {
+            let responses = JSON.parse(localStorage.getItem('valentineResponses')) || [];
+            responses.push({
+                name: name,
+                answer: answer,
+                timestamp: new Date().toLocaleString()
+            });
+            localStorage.setItem('valentineResponses', JSON.stringify(responses));
+        }
+
+        function showMessage(text, type) {
+            const responseDiv = document.getElementById('responseMessage');
+            responseDiv.textContent = text;
+            responseDiv.className = `response-message ${type}`;
+            
+            setTimeout(() => {
+                responseDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        function updateStats() {
+            const responses = JSON.parse(localStorage.getItem('valentineResponses')) || [];
+            const total = responses.length;
+            const yes = responses.filter(r => r.answer === 'yes').length;
+            const no = responses.filter(r => r.answer === 'no').length;
+            
+            let statsHtml = '';
+            if (total > 0) {
+                statsHtml = `
+                    <strong>Total Responses: ${total}</strong><br>
+                    💖 Yes: ${yes} (${Math.round(yes/total*100)}%)<br>
+                    💔 No: ${no} (${Math.round(no/total*100)}%)<br>
+                    <small>Last updated: ${new Date().toLocaleTimeString()}</small>
+                `;
+            } else {
+                statsHtml = 'No responses yet. Be the first to answer! 💝';
+            }
+            
+            document.getElementById('stats').innerHTML = statsHtml;
+        }
+
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('span');
+                heart.innerHTML = ['❤️', '💖', '💕', '💗', '💓', '💘'][Math.floor(Math.random() * 6)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+                heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+                container.appendChild(heart);
+            }
+        }
+
+        // Confetti effect for Yes answers
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'fixed';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '-10px';
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.borderRadius = '50%';
+                confetti.style.pointerEvents = 'none';
+                confetti.style.zIndex = '9999';
+                confetti.style.animation = `float ${Math.random() * 2 + 2}s linear forwards`;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        // Initialize
+        createFloatingHearts();
+        updateStats();
+    </script>
+</body>
+</html>
